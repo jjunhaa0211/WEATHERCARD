@@ -8,7 +8,7 @@ interface DateDisplayProps {
   time: string;
 }
 
-export const DateDisplay: React.FC<DateDisplayProps> = ({ day, date, time }) => {
+export const DateDisplay = ({ day, date, time }: DateDisplayProps) => {
   return (
     <View style={weatherStyle.dateContainer}>
       <Text style={weatherStyle.dayText}>{day}</Text>

@@ -8,19 +8,16 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import { lineStyle } from "./style/line";
+import { lineStyle } from "./style/line"; // 묶을 수 있는 것을 묶어라
 import { weatherStyle } from "./style/weatherStyle";
-import { DateDisplay } from "./components/DateDisplay";
-import { WeatherDisplay } from "./components/WeatherDisplay";
-import { WeatherDetails } from "./components/WeatherDetails";
+import { DateDisplay, WeatherDisplay, WeatherDetails } from "./components";
 import * as Location from "expo-location";
+import { fetchWeatherData } from "./service/weaderService";
 import {
   getDayOfWeek,
   getFormattedDate,
   getFormattedTime,
 } from "./Util/fomatDate";
-import { fetchWeatherData } from "./service/weaderService";
-import SplashScreen from "react-native-splash-screen";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
@@ -28,17 +25,17 @@ interface Day {
   dt_txt: string;
   main: {
     temp: number;
-    temp_max: number;
-    temp_min: number;
-    feels_like: number;
-    humidity: number;
+    temp_max: string;
+    temp_min: string;
+    feels_like: string;
+    humidity: string;
   };
-  weather: Array<{
+  weather: {
     description: string;
-  }>;
-  pop: number;
+  }[];
+  pop: string;
   wind: {
-    speed: number;
+    speed: string;
   };
 }
 
@@ -96,27 +93,27 @@ export default function App() {
             <ActivityIndicator color="black" size="large" />
           </View>
         ) : (
-          days.map((day, index) => (
+          days.map(({ dt_txt, main, wind, weather, pop }, index) => (
             <View key={index} style={weatherStyle.innerContainer}>
               <View style={{ height: 80 }} />
               <DateDisplay
-                day={getDayOfWeek(day.dt_txt)}
-                date={getFormattedDate(day.dt_txt)}
-                time={getFormattedTime(day.dt_txt)}
+                day={getDayOfWeek(dt_txt)}
+                date={getFormattedDate(dt_txt)}
+                time={getFormattedTime(dt_txt)}
               />
               <View style={lineStyle.line1}></View>
               <WeatherDisplay
-                temperature={Math.round(day.main.temp)}
-                weather={day.weather[0].description}
+                temperature={Math.round(main.temp)}
+                weather={weather[0].description}
               />
               <View style={lineStyle.line1}></View>
               <WeatherDetails
-                high={day.main.temp_max}
-                low={day.main.temp_min}
-                feel={day.main.feels_like}
-                precipitation={day.pop}
-                wind={day.wind.speed}
-                humidity={day.main.humidity}
+                high={main.temp_max}
+                low={main.temp_min}
+                feel={main.feels_like}
+                precipitation={pop}
+                wind={wind.speed}
+                humidity={main.humidity}
               />
             </View>
           ))
