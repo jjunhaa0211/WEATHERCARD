@@ -2,7 +2,7 @@
   "expo": {
     "name": "WeatherCard",
     "slug": "WeatherCard",
-    "version": "1.0.0",
+    "version": "1.5.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -12,7 +12,9 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jjunhaa0211.WeatherCard",
+      "buildNumber": "2"
     },
     "android": {
       "adaptiveIcon": {
@@ -22,6 +24,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "960924e8-0641-45a0-b5ca-2d05f310c18a"
+      }
     }
   }
 }

@@ -6,6 +6,7 @@ import {
   ScrollView,
   Dimensions,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { lineStyle } from "./style/line"; // 묶을 수 있는 것을 묶어라
@@ -46,9 +47,21 @@ export default function App() {
   const [loading, setLoading] = useState<boolean>(true);
 
   const getLocationAndWeather = async () => {
-    const data = await Location.requestForegroundPermissionsAsync();
-    if (!data.granted) {
-      setOk(false);
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      Alert.alert(
+        "WEATHERCARD의 사용자의 날씨 데이터를 받기 위해 위치 정보 필요합니다.",
+        "제공 받은 날씨 정보를 통해서 사용자에게 날씨 데이터를 부여해주고 있습니다. 위치정보를 기반으로 하기 때문에 위치정보를 혀용해주세요",
+        [
+          {
+            text: "확인",
+            onPress: () => {
+              getLocationAndWeather();
+            },
+          },
+        ],
+        { cancelable: false }
+      );
       return;
     }
 
